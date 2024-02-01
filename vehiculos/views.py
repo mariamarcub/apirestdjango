@@ -30,8 +30,7 @@ class MarcaView(viewsets.ModelViewSet):
     queryset = Marca.objects.all()
     serializer_class = MarcaSerializer
 
-    @action(detail=True, methods=[
-        'get'])  # El action sirve para crear una acción personalizada que liste los vehículos de una marca específica
+    @action(detail=True, methods=['get'])  # El action sirve para crear una acción personalizada que liste los vehículos de una marca específica
     def listarVehiculosPorMarca(self, pk):
         marca = get_object_or_404(Marca,
                                   pk=pk)  # obtener la marca correspondiente basada en el pk proporcionado en la URL
@@ -39,9 +38,6 @@ class MarcaView(viewsets.ModelViewSet):
         serializer = self.get_serializer(vehiculos, many=True)  # Serializar los vehículos
         return Response(serializer.data)  # Devolver la lista de vehículos como respuesta
         # serializer.data: se accede a los datos serializados del objeto serializer
-#class VehiculoView(viewsets.ModelViewSet):
-#    queryset = Vehiculo.objects.all()
- #   serializer_class = VehiculoSerializer
 
 
 class VehiculoView(viewsets.ModelViewSet):
