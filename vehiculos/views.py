@@ -1,5 +1,9 @@
 from django.contrib.auth.models import Group, User
+from django.shortcuts import get_object_or_404
 from rest_framework import permissions, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
 from vehiculos.models import Marca, Vehiculo
 from vehiculos.serializers import GroupSerializer, UserSerializer, MarcaSerializer, VehiculoSerializer
 
@@ -25,6 +29,20 @@ class GroupViewSet(viewsets.ModelViewSet):
 class MarcaView(viewsets.ModelViewSet):
     queryset = Marca.objects.all()
     serializer_class = MarcaSerializer
+
+    @action(detail=True, methods=[
+        'get'])  # El action sirve para crear una acción personalizada que liste los vehículos de una marca específica
+    def listarVehiculosPorMarca(self, pk):
+        marca = get_object_or_404(Marca,
+                                  pk=pk)  # obtener la marca correspondiente basada en el pk proporcionado en la URL
+        vehiculos = self.queryset.filter(marca=marca)  # Obtener todos los vehículos asociados a la marca
+        serializer = self.get_serializer(vehiculos, many=True)  # Serializar los vehículos
+        return Response(serializer.data)  # Devolver la lista de vehículos como respuesta
+        # serializer.data: se accede a los datos serializados del objeto serializer
+#class VehiculoView(viewsets.ModelViewSet):
+#    queryset = Vehiculo.objects.all()
+ #   serializer_class = VehiculoSerializer
+
 
 class VehiculoView(viewsets.ModelViewSet):
     queryset = Vehiculo.objects.all()
