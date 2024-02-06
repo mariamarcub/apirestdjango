@@ -42,3 +42,14 @@ class MarcaView(viewsets.ModelViewSet):
 class VehiculoView(viewsets.ModelViewSet):
     queryset = Vehiculo.objects.all()
     serializer_class = VehiculoSerializer
+
+    @action(detail=False, methods=['get'], description="filter on marca get parameter")
+    def filtro_marca(self, request):
+        vehiculos_marca = Vehiculo.objects.all()
+        marca = self.request.query_params.get('marca')
+
+        if (marca):
+            vehiculos_marca = Vehiculo.objects.all().filter(marca__nombre=marca)
+
+        serializer = self.get_serializer(vehiculos_marca, many=True)
+        return Response(serializer.data)
