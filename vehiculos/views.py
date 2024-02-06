@@ -29,7 +29,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 class MarcaView(viewsets.ModelViewSet):
     queryset = Marca.objects.all()
     serializer_class = MarcaSerializer
-
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     @action(detail=True, methods=['get'])  # El action sirve para crear una acción personalizada que liste los vehículos de una marca específica
     def listarVehiculosPorMarca(self, request, pk):
         marca = get_object_or_404(Marca, pk=pk)  # obtener la marca correspondiente basada en el pk proporcionado en la URL
@@ -42,7 +42,7 @@ class MarcaView(viewsets.ModelViewSet):
 class VehiculoView(viewsets.ModelViewSet):
     queryset = Vehiculo.objects.all()
     serializer_class = VehiculoSerializer
-
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     @action(detail=False, methods=['get'], description="filter on marca get parameter")
     def filtro_marca(self, request):
         vehiculos_marca = Vehiculo.objects.all()
