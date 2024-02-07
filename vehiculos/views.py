@@ -3,9 +3,9 @@ from django.shortcuts import get_object_or_404
 from rest_framework import permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
 from vehiculos.models import Marca, Vehiculo
 from vehiculos.serializers import GroupSerializer, UserSerializer, MarcaSerializer, VehiculoSerializer
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -43,6 +43,12 @@ class VehiculoView(viewsets.ModelViewSet):
     queryset = Vehiculo.objects.all()
     serializer_class = VehiculoSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    @extend_schema( #Para filtar el query por la url
+        parameters=[
+            OpenApiParameter(name='marca', description="", required=False, type=str)
+        ]
+    )
     @action(detail=False, methods=['get'], description="filter on marca get parameter")
     def filtro_marca(self, request):
         vehiculos_marca = Vehiculo.objects.all()

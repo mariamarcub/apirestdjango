@@ -15,6 +15,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
         fields = ['url', 'name']
+
 class MarcaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Marca
