@@ -1,0 +1,539 @@
+openapi: 3.0.3
+info:
+  title: Your Project API
+  version: 1.0.0
+  description: Your project description
+paths:
+  /marcas/:
+    get:
+      operationId: marcas_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - marcas
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMarcaList'
+          description: ''
+    post:
+      operationId: marcas_create
+      tags:
+      - marcas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Marca'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Marca'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Marca'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Marca'
+          description: ''
+  /marcas/{id}/:
+    get:
+      operationId: marcas_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this marca.
+        required: true
+      tags:
+      - marcas
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Marca'
+          description: ''
+    put:
+      operationId: marcas_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this marca.
+        required: true
+      tags:
+      - marcas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Marca'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Marca'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Marca'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Marca'
+          description: ''
+    patch:
+      operationId: marcas_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this marca.
+        required: true
+      tags:
+      - marcas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMarca'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMarca'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMarca'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Marca'
+          description: ''
+    delete:
+      operationId: marcas_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this marca.
+        required: true
+      tags:
+      - marcas
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /marcas/{id}/listarVehiculosPorMarca/:
+    get:
+      operationId: marcas_listarVehiculosPorMarca_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this marca.
+        required: true
+      tags:
+      - marcas
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Marca'
+          description: ''
+  /vehiculos/:
+    get:
+      operationId: vehiculos_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - vehiculos
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedVehiculoList'
+          description: ''
+    post:
+      operationId: vehiculos_create
+      tags:
+      - vehiculos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehiculo'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vehiculo'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vehiculo'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehiculo'
+          description: ''
+  /vehiculos/{id}/:
+    get:
+      operationId: vehiculos_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this vehiculo.
+        required: true
+      tags:
+      - vehiculos
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehiculo'
+          description: ''
+    put:
+      operationId: vehiculos_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this vehiculo.
+        required: true
+      tags:
+      - vehiculos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehiculo'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vehiculo'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vehiculo'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehiculo'
+          description: ''
+    patch:
+      operationId: vehiculos_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this vehiculo.
+        required: true
+      tags:
+      - vehiculos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedVehiculo'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedVehiculo'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedVehiculo'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehiculo'
+          description: ''
+    delete:
+      operationId: vehiculos_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this vehiculo.
+        required: true
+      tags:
+      - vehiculos
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /vehiculos/filtro_marca/:
+    get:
+      operationId: vehiculos_filtro_marca_retrieve
+      parameters:
+      - in: query
+        name: marca
+        schema:
+          type: string
+      tags:
+      - vehiculos
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehiculo'
+          description: ''
+components:
+  schemas:
+    ColorEnum:
+      enum:
+      - Rojo
+      - Azul
+      - Verde
+      - Negro
+      - Blanco
+      - Gris
+      - Otro
+      type: string
+      description: |-
+        * `Rojo` - Rojo
+        * `Azul` - Azul
+        * `Verde` - Verde
+        * `Negro` - Negro
+        * `Blanco` - Blanco
+        * `Gris` - Gris
+        * `Otro` - Otro
+    Marca:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        nombre:
+          type: string
+          maxLength: 50
+      required:
+      - nombre
+      - url
+    PaginatedMarcaList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Marca'
+    PaginatedVehiculoList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vehiculo'
+    PatchedMarca:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        nombre:
+          type: string
+          maxLength: 50
+    PatchedVehiculo:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        marca:
+          type: string
+          format: uri
+        tipo_vehiculo:
+          $ref: '#/components/schemas/TipoVehiculoEnum'
+        chasis:
+          type: string
+          maxLength: 100
+        modelo:
+          type: string
+          maxLength: 100
+        matricula:
+          type: string
+          maxLength: 20
+        color:
+          $ref: '#/components/schemas/ColorEnum'
+        fecha_fabricacion:
+          type: string
+          format: date
+        fecha_matriculacion:
+          type: string
+          format: date
+        fecha_baja:
+          type: string
+          format: date
+          nullable: true
+        suspendido:
+          type: boolean
+    TipoVehiculoEnum:
+      enum:
+      - Coche
+      - Ciclomotor
+      - Motocicleta
+      type: string
+      description: |-
+        * `Coche` - Coche
+        * `Ciclomotor` - Ciclomotor
+        * `Motocicleta` - Motocicleta
+    Vehiculo:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        marca:
+          type: string
+          format: uri
+        tipo_vehiculo:
+          $ref: '#/components/schemas/TipoVehiculoEnum'
+        chasis:
+          type: string
+          maxLength: 100
+        modelo:
+          type: string
+          maxLength: 100
+        matricula:
+          type: string
+          maxLength: 20
+        color:
+          $ref: '#/components/schemas/ColorEnum'
+        fecha_fabricacion:
+          type: string
+          format: date
+        fecha_matriculacion:
+          type: string
+          format: date
+        fecha_baja:
+          type: string
+          format: date
+          nullable: true
+        suspendido:
+          type: boolean
+      required:
+      - chasis
+      - color
+      - fecha_fabricacion
+      - fecha_matriculacion
+      - marca
+      - matricula
+      - modelo
+      - tipo_vehiculo
+      - url
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

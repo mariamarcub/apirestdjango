@@ -4,8 +4,8 @@ from rest_framework import routers
 from vehiculos import views, admin
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
+#router.register(r'users', views.UserViewSet)
+#router.register(r'groups', views.GroupViewSet)
 router.register(r'marcas', views.MarcaView)
 router.register(r'vehiculos', views.VehiculoView)
 
