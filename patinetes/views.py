@@ -19,25 +19,36 @@ class PatineteView(viewsets.ModelViewSet):
     #Es un patinete en concreto, por eso es detail=True
     def alquilar_patinete(self, request, pk=None): #AQUI EL PATINETE ESTÁ LIBRE
         patinete = Patinete.objects.get(pk=pk)
-        patiente_libre = Patinete.objects.filter(Q(alquiler_is_null=True) & Q(alquiler__fecha_entrega_isnull= True))
+        patinete_libre = Patinete.objects.filter(Q(alquiler_is_null=True) & Q(alquiler__fecha_entrega_isnull= True))
 
-        if patiente_libre:
+        if patinete_libre:
             return Response({'mensaje': 'El patinete está disponible para alquilarse'}, status=status.HTTP_200_OK) #Operación exitosa. #Este código de estado indica que la solicitud se ha completado correctamente.
         else: # El patinete ya está alquilado
             return Response({'error': 'El patinete ya está alquilado'}, status=status.HTTP_400_BAD_REQUEST) #Error. Este código de estado indica que la solicitud no pudo ser procesada debido a un error en la solicitud del cliente
 
-
+    @action(detail=True, methods=['get'])
     def liberar_patinete(self, request, pk=None):
-        alquiler = Alquiler.objects.get(usuario=request.user, patinete_id=pk, finalizado=False)
-        costo_alquiler = alquiler.calcular_costo_alquiler()  # Suponiendo que tienes un método en el modelo Alquiler para calcular el costo
-        usuario = Usuario.objects.get(user=request.user)
-        usuario.debito += costo_alquiler
-        usuario.save()
-        alquiler.finalizado = True
-        alquiler.save()
+
         patinete = Patinete.objects.get(pk=pk)
-        patinete.disponible = True
-        patinete.save()
+        alquiler = Alquiler.objects.get(pk=pk)
+
+        # Verificar si el patinete está en alquiler para el usuario actual
+        patinete_a_liberar = Alquiler.objects.filter(
+            Q(patinete=patinete) &
+            Q(usuario=request.user) &
+            Q(fecha_entrega__isnull=True) #Tiene fecha de entrega, por lo que va a liberarlo
+        ).first()
+
+        tiempo_alquiler = (alquiler.fecha_entrega() - alquiler.fecha_desbloqueo).total_seconds() / 60  # Tiempo en minutos
+        coste_final = tiempo_alquiler * patinete.precio_minuto
+
+        usuario = Usuario.objects.get(user=request.user)
+        usuario.debito += coste_final
+        usuario.save()
+
+        alquiler.fecha_entrega = True
+        alquiler.save()
+
         return Response({'mensaje': 'Patinete liberado exitosamente'}, status=status.HTTP_200_OK)
 
 

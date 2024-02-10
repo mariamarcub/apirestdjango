@@ -13,7 +13,7 @@ class Patinete (models.Model):
 
 
 class Usuario (models.Model):
-    debito = models.CharField(max_length=20,default=0)
+    debito = models.IntegerField(default=0)
     def __str__(self):
         return f"{self.debito}"
     class Meta:
