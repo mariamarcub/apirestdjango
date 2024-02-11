@@ -73,7 +73,7 @@ class PatineteView(viewsets.ModelViewSet):
         # Exclude sirve para decirnos que nos QUITE los que están alquilados y los no entregados.
         libres = Patinete.objects.exclude(Q(alquiler__isnull=False) & Q(alquiler__fecha_entrega__isnull=True))
         # Serializar los datos de los patinetes libres si es necesario
-        serializer = PatineteSerializer(libres, many=True)
+        serializer = PatineteSerializer(libres, many=True,context={'request': request})
         # Devolver los datos de los patinetes libres como respuesta
         return Response(serializer.data)
 
@@ -85,7 +85,7 @@ class PatineteView(viewsets.ModelViewSet):
         #Con filter le decimos que nos muestre aquellos que cumplan esas condiciones: alquilado y no entregado
         ocupados = Patinete.objects.filter(Q(alquiler__isnull=False) & Q(alquiler__fecha_entrega__isnull=True))
         # Serializar los datos de los patinetes ocupados si es necesario
-        serializer = PatineteSerializer(ocupados, many=True)
+        serializer = PatineteSerializer(ocupados, many=True,context={'request': request})
         # Devolver los datos de los patinetes ocupados como respuesta
         return Response(serializer.data)
 
