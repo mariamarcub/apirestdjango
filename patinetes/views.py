@@ -26,12 +26,15 @@ class PatineteView(viewsets.ModelViewSet):
         patinete = Patinete.objects.get(pk=pk)
         #alquiler_is_null = true significa que no existe ningún alquiler
         #alquiler__fecha_entrega_isnull = False significa que está libre el patinete
-        patinete_libre = Patinete.objects.filter(Q(alquiler_is_null=True) & Q(alquiler__fecha_entrega_isnull= False))
+        patinete_libre = Patinete.objects.filter(
+            Q(id=pk) & Q(alquiler__isnull=True) & ~Q(alquiler__fecha_entrega__isnull=True)
+        ).exists()
 
         if patinete_libre:
-            return Response({'mensaje': 'El patinete está disponible para alquilarse'}, status=status.HTTP_200_OK) #Operación exitosa. #Este código de estado indica que la solicitud se ha completado correctamente.
-        else: # El patinete ya está alquilado
-            return Response({'error': 'El patinete ya está alquilado'}, status=status.HTTP_400_BAD_REQUEST) #Error. Este código de estado indica que la solicitud no pudo ser procesada debido a un error en la solicitud del cliente
+            serializer = self.get_serializer(patinete)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'El patinete ya está alquilado'}, status=status.HTTP_400_BAD_REQUEST)
 
     #Si se está enviando un mensaje, no se necesita el serializer.
 
@@ -80,7 +83,7 @@ class PatineteView(viewsets.ModelViewSet):
             return Response(serializer.data)
         #Crea un servicio que muestre los patinetes ocupados.
         @action(detail=False, methods=['get'])
-        def patinetes_libres(self, request):
+        def patinetes_ocupados(self, request):
             #alquiler_isnull = False significa que el patinete está alquilado, no está libre
             #fecha_entrega__isnull=True significa el patinete está actualmente alquilado y aún no ha sido devuelto.
             #Con filter le decimos que nos muestre aquellos que cumplan esas condiciones: alquilado y no entregado
