@@ -42,8 +42,11 @@ class PatineteView(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'])
     def liberar_patinete(self, request, pk=None):
 
-        patinete = Patinete.objects.get(pk=pk)
-        alquiler = Alquiler.objects.get(pk=pk)
+        try:
+            patinete = Patinete.objects.get(pk=pk)
+            alquiler = Alquiler.objects.get(pk=pk)
+        except Alquiler.DoesNotExist:
+            return Response({'error': 'El patinete no está ocupado. No se puede liberar.'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Verificar si el patinete está en alquiler para el usuario actual
         patinete_a_liberar = Alquiler.objects.filter(
