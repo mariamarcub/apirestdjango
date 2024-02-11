@@ -1,13 +1,10 @@
 from datetime import datetime
-
-from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models import Q
 from rest_framework import permissions, viewsets, status
 from rest_framework.decorators import action, permission_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
-
 from patinetes.models import Patinete, Alquiler, Usuario
 from patinetes.serializers import PatineteSerializer, AlquilerSerializer, UsuarioSerializer
 
@@ -67,31 +64,30 @@ class PatineteView(viewsets.ModelViewSet):
 
         return Response({'mensaje': 'Patinete liberado exitosamente'}, status=status.HTTP_200_OK)
 
-        #AMPLIACIÓN
 
         #Crea un servicio que muestre los patinetes libres.
-        @action(detail=False, methods=['get'])
-        def patinetes_libres(self, request):
-            #alquiler_isnull = False significa que el patinete está alquilado, no está libre
-            #fecha_entrega__isnull=True significa el patinete está actualmente alquilado y aún no ha sido devuelto.
-            #Exclude sirve para decirnos que nos QUITE los que están alquilados y los no entregados.
-            libres = Patinete.objects.exclude(Q(alquiler__isnull=False) & Q(alquiler__fecha_entrega__isnull=True))
-            # Serializar los datos de los patinetes libres si es necesario
-            serializer = PatineteSerializer(libres, many=True)
+    @action(detail=False, methods=['get'])
+    def libres(self, request):
+        #alquiler_isnull = False significa que el patinete está alquilado, no está libre
+        # fecha_entrega__isnull=True significa el patinete está actualmente alquilado y aún no ha sido devuelto.
+        # Exclude sirve para decirnos que nos QUITE los que están alquilados y los no entregados.
+        libres = Patinete.objects.exclude(Q(alquiler__isnull=False) & Q(alquiler__fecha_entrega__isnull=True))
+        # Serializar los datos de los patinetes libres si es necesario
+        serializer = PatineteSerializer(libres, many=True)
+        # Devolver los datos de los patinetes libres como respuesta
+        return Response(serializer.data)
 
-            # Devolver los datos de los patinetes libres como respuesta
-            return Response(serializer.data)
-        #Crea un servicio que muestre los patinetes ocupados.
-        @action(detail=False, methods=['get'])
-        def patinetes_ocupados(self, request):
-            #alquiler_isnull = False significa que el patinete está alquilado, no está libre
-            #fecha_entrega__isnull=True significa el patinete está actualmente alquilado y aún no ha sido devuelto.
-            #Con filter le decimos que nos muestre aquellos que cumplan esas condiciones: alquilado y no entregado
-            ocupados = Patinete.objects.filter(Q(alquiler__isnull=False)&Q(alquiler__fecha_entrega__isnull=True))
-            # Serializar los datos de los patinetes ocupados si es necesario
-            serializer = PatineteSerializer(ocupados, many=True)
-            # Devolver los datos de los patinetes ocupados como respuesta
-            return Response(serializer.data)
+    #Crea un servicio que muestre los patinetes ocupados.
+    @action(detail=False, methods=['get'])
+    def ocupados(self, request):
+        #alquiler_isnull = False significa que el patinete está alquilado, no está libre
+        #fecha_entrega__isnull=True significa el patinete está actualmente alquilado y aún no ha sido devuelto.
+        #Con filter le decimos que nos muestre aquellos que cumplan esas condiciones: alquilado y no entregado
+        ocupados = Patinete.objects.filter(Q(alquiler__isnull=False) & Q(alquiler__fecha_entrega__isnull=True))
+        # Serializar los datos de los patinetes ocupados si es necesario
+        serializer = PatineteSerializer(ocupados, many=True)
+        # Devolver los datos de los patinetes ocupados como respuesta
+        return Response(serializer.data)
 
 class AlquilerView(viewsets.ModelViewSet):
     queryset = Alquiler.objects.all()
