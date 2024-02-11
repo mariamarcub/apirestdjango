@@ -20,11 +20,14 @@ class PatineteView(viewsets.ModelViewSet):
     #recurso específico dentro de una colección de recursos.
     #Es un patinete en concreto, por eso es detail=True
     def alquilar_patinete(self, request, pk=None): #AQUI EL PATINETE ESTÁ LIBRE
-        patinete = Patinete.objects.get(pk=pk)
-        #alquiler_is_null = true significa que no existe ningún alquiler
-        #alquiler__fecha_entrega_isnull = False significa que está libre el patinete
-        patinete_libre = Patinete.objects.filter(
-            Q(id=pk) & Q(alquiler__isnull=True) & ~Q(alquiler__fecha_entrega__isnull=True)
+
+        try:
+            patinete = Patinete.objects.get(pk=pk)
+        except Patinete.DoesNotExist:
+            return Response({'error': 'El patinete no existe'}, status=status.HTTP_404_NOT_FOUND)
+
+        patinete_libre = not Alquiler.objects.filter(
+            Q(patinete=patinete) & Q(fecha_entrega__isnull=True)
         ).exists()
 
         if patinete_libre:
@@ -32,12 +35,6 @@ class PatineteView(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'El patinete ya está alquilado'}, status=status.HTTP_400_BAD_REQUEST)
-
-    #Si se está enviando un mensaje, no se necesita el serializer.
-
-    #Liberar: Requiere que el usuario esté autenticado y que indique
-    # el patinete que tiene en alquiler y quiere liberar.
-    # La liberación implica calcular el coste final y aumentar el débito del usuario.
     @transaction.atomic
     @action(detail=True, methods=['get'])
     def liberar_patinete(self, request, pk=None):
