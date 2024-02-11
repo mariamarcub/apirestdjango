@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models import Q
 from rest_framework import permissions, viewsets, status
-from rest_framework.decorators import action
-from rest_framework.permissions import IsAdminUser
+from rest_framework.decorators import action, permission_classes
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 from patinetes.models import Patinete, Alquiler, Usuario
@@ -93,7 +93,7 @@ class PatineteView(viewsets.ModelViewSet):
 class AlquilerView(viewsets.ModelViewSet):
     queryset = Alquiler.objects.all()
     serializer_class = AlquilerSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    #permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     #Publica un servicio para el listado de todos los alquileres
     # realizados que sólo puedan ver los administradores.
 
@@ -111,7 +111,7 @@ class AlquilerView(viewsets.ModelViewSet):
 
     #Publica un servicio para el listado de los alquileres que solo pueda
     # ver el usuario autenticado sobre sí mismo.
-
+    permission_classes = [IsAuthenticated]
     @action(detail=False, methods=['get'])
     def listado_alquileres(self, request):
         usuario_autenticado = request.user
