@@ -1,0 +1,734 @@
+openapi: 3.0.3
+info:
+  title: Your Project API
+  version: 1.0.0
+  description: Your project description
+paths:
+  /alquileres/:
+    get:
+      operationId: alquileres_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - alquileres
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAlquilerList'
+          description: ''
+    post:
+      operationId: alquileres_create
+      tags:
+      - alquileres
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Alquiler'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Alquiler'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Alquiler'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alquiler'
+          description: ''
+  /alquileres/{id}/:
+    get:
+      operationId: alquileres_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this alquiler.
+        required: true
+      tags:
+      - alquileres
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alquiler'
+          description: ''
+    put:
+      operationId: alquileres_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this alquiler.
+        required: true
+      tags:
+      - alquileres
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Alquiler'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Alquiler'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Alquiler'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alquiler'
+          description: ''
+    patch:
+      operationId: alquileres_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this alquiler.
+        required: true
+      tags:
+      - alquileres
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAlquiler'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAlquiler'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAlquiler'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alquiler'
+          description: ''
+    delete:
+      operationId: alquileres_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this alquiler.
+        required: true
+      tags:
+      - alquileres
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /alquileres/alquileres_realizados/:
+    get:
+      operationId: alquileres_alquileres_realizados_retrieve
+      tags:
+      - alquileres
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alquiler'
+          description: ''
+  /alquileres/listado_alquileres/:
+    get:
+      operationId: alquileres_listado_alquileres_retrieve
+      tags:
+      - alquileres
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alquiler'
+          description: ''
+  /patinetes/:
+    get:
+      operationId: patinetes_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - patinetes
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPatineteList'
+          description: ''
+    post:
+      operationId: patinetes_create
+      tags:
+      - patinetes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patinete'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Patinete'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Patinete'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patinete'
+          description: ''
+  /patinetes/{id}/:
+    get:
+      operationId: patinetes_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this patinete.
+        required: true
+      tags:
+      - patinetes
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patinete'
+          description: ''
+    put:
+      operationId: patinetes_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this patinete.
+        required: true
+      tags:
+      - patinetes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patinete'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Patinete'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Patinete'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patinete'
+          description: ''
+    patch:
+      operationId: patinetes_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this patinete.
+        required: true
+      tags:
+      - patinetes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPatinete'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPatinete'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPatinete'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patinete'
+          description: ''
+    delete:
+      operationId: patinetes_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this patinete.
+        required: true
+      tags:
+      - patinetes
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /patinetes/{id}/alquilar_patinete/:
+    get:
+      operationId: patinetes_alquilar_patinete_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this patinete.
+        required: true
+      tags:
+      - patinetes
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patinete'
+          description: ''
+  /patinetes/{id}/liberar_patinete/:
+    get:
+      operationId: patinetes_liberar_patinete_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this patinete.
+        required: true
+      tags:
+      - patinetes
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patinete'
+          description: ''
+  /usuarios/:
+    get:
+      operationId: usuarios_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - usuarios
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUsuarioList'
+          description: ''
+    post:
+      operationId: usuarios_create
+      tags:
+      - usuarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+          description: ''
+  /usuarios/{id}/:
+    get:
+      operationId: usuarios_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this usuario.
+        required: true
+      tags:
+      - usuarios
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+          description: ''
+    put:
+      operationId: usuarios_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this usuario.
+        required: true
+      tags:
+      - usuarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+          description: ''
+    patch:
+      operationId: usuarios_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this usuario.
+        required: true
+      tags:
+      - usuarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUsuario'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUsuario'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUsuario'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+          description: ''
+    delete:
+      operationId: usuarios_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this usuario.
+        required: true
+      tags:
+      - usuarios
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Alquiler:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        usuario:
+          type: string
+          format: uri
+        patinete:
+          type: string
+          format: uri
+        fecha_desbloqueo:
+          type: string
+          format: date
+        fecha_entrega:
+          type: string
+          format: date
+        coste_final:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+      required:
+      - fecha_desbloqueo
+      - fecha_entrega
+      - patinete
+      - url
+      - usuario
+    PaginatedAlquilerList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Alquiler'
+    PaginatedPatineteList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Patinete'
+    PaginatedUsuarioList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Usuario'
+    PatchedAlquiler:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        usuario:
+          type: string
+          format: uri
+        patinete:
+          type: string
+          format: uri
+        fecha_desbloqueo:
+          type: string
+          format: date
+        fecha_entrega:
+          type: string
+          format: date
+        coste_final:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+    PatchedPatinete:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        numero:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        tipo:
+          type: string
+          maxLength: 100
+        precio_desbloqueo:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        precio_minuto:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+    PatchedUsuario:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        debito:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+    Patinete:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        numero:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        tipo:
+          type: string
+          maxLength: 100
+        precio_desbloqueo:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        precio_minuto:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+      required:
+      - numero
+      - tipo
+      - url
+    Usuario:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        debito:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+      required:
+      - url
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
