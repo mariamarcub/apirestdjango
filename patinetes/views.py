@@ -102,10 +102,9 @@ class AlquilerView(viewsets.ModelViewSet):
     @permission_classes([IsAdminUser]) #Solo puede verlo los administradores
     def alquileres_realizados(self, request):
         # Obtener todos los alquileres sin entregar
-        alquileres_activos = Alquiler.objects.filter(patinete__alquilerset__fecha_entrega=None)
+        alquileres_activos = Alquiler.objects.filter(alquilerset__patinete__fecha_entrega=None)
         serializer = AlquilerSerializer(alquileres_activos, many=True)
         return Response(serializer.data)
-
 
     #Publica un servicio para el listado de los alquileres que solo pueda
     # ver el usuario autenticado sobre sí mismo.
@@ -125,3 +124,11 @@ class UsuarioView(viewsets.ModelViewSet):
     serializer_class = UsuarioSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    #Crea un servicio que devuelva los usuarios ordenados por débito
+
+    @action(detail=False, methods=['get'])
+    def debitos(self, request):
+        debitos = Usuario.objects.filter().order_by('debito')
+        #Si quiero el orden al reves: debitos = Usuario.objects.all().order_by('-debito')
+        serializer = UsuarioSerializer(debitos, many=True,context={'request': request})
+        return Response(serializer.data)
