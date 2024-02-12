@@ -1,4 +1,5 @@
 from django.contrib.auth.models import Group, User
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from rest_framework import permissions, viewsets
 from rest_framework.decorators import action
@@ -59,3 +60,38 @@ class VehiculoView(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(vehiculos_marca, many=True)
         return Response(serializer.data)
+
+
+    #Crea servicios que permitan obtener los listados ordenados por fecha.
+    @action(detail=False, methods=['get'])
+    def listado_fecha(self, request):
+
+        ordenados_fechas = Vehiculo.objects.all().filter(fecha_fabricacion__isnull=False).order_by('fecha_fabricacion')
+
+        serializer = self.get_serializer(ordenados_fechas, many=True)
+        return Response(serializer.data)
+
+
+    #Crea un servicio que permita filtrar vehículos por Marcas, modelos y colores.
+
+    @action(detail=False, methods=['get'])
+    def marcaModelosColores(self, request):
+        vehiculos = Vehiculo.objects.all()
+        marca = self.request.query_params.get('marca')
+        modelo = self.request.query_params.getlist('modelo')
+        color = self.request.query_params.getlist('color')
+
+        if marca:
+            vehiculos: vehiculos.filter(marca__nombre=marca)
+
+        if modelo:
+            vehiculos = vehiculos.filter(modelo__in=modelo)
+
+        if color:
+            vehiculos = vehiculos.filter(color__in=color)
+
+        serializer = self.get_serializer(vehiculos, many=True)
+
+        #Ejemplo de buscar por URL: http://127.0.0.1:8000/vehiculos/marcaModelosColores/?marca=Yamaha&modelo=R15&color=Azul
+        return Response(serializer.data)
+
