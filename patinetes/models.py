@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 # Create your models here.
 
@@ -14,7 +15,8 @@ class Patinete (models.Model):
 
 class Usuario (models.Model):
     debito = models.IntegerField(default=0)
-    contraseña = models.CharField(max_length=128,default='temporal')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default=None)
+
     def __str__(self):
         return f"{self.debito}"
     class Meta:
