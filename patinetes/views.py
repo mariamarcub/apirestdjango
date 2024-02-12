@@ -98,7 +98,6 @@ class AlquilerView(viewsets.ModelViewSet):
 
     #Publica un servicio para el listado de todos los alquileres realizados
     # que sólo puedan ver los administradores
-    @transaction.atomic
     @action(detail=False, methods=['get'])
     @permission_classes([IsAdminUser]) #Solo puede verlo los administradores
     def alquileres_realizados(self, request):
