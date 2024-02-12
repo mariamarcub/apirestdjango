@@ -74,6 +74,14 @@ class VehiculoView(viewsets.ModelViewSet):
 
     #Crea un servicio que permita filtrar vehículos por Marcas, modelos y colores.
 
+    # Si quisiera documentarlo con OpenApi, tendría que hacer lo siguiente:
+    # @extend_schema(
+    #     parameters=[
+    #         OpenApiParameter(name='marca', description="Nombre de la marca a filtrar", required=False, type=str),
+    #         OpenApiParameter(name='modelo', description="Nombre del modelo a filtrar", required=False, type=str),
+    #         OpenApiParameter(name='color', description="Color del vehículo a filtrar", required=False, type=str),
+    #     ]
+    # )
     @action(detail=False, methods=['get'])
     def marcaModelosColores(self, request):
         vehiculos = Vehiculo.objects.all()
