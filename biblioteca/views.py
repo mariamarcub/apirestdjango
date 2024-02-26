@@ -43,9 +43,6 @@ class AlquilerView(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-
-
-
 class UsuarioView(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer

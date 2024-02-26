@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from rest_framework.authtoken.admin import User
+
 from biblioteca.models import Libro, Alquiler, Usuario
 
 
@@ -16,6 +18,7 @@ class LibroSerializer(serializers.HyperlinkedModelSerializer):
 # si se proporciona una fecha de finalización.
 
 class AlquilerSerializer(serializers.HyperlinkedModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     class Meta:
         model = Alquiler
         fields = ['url', 'libro','usuario','inicio','fin']
@@ -30,19 +33,21 @@ class AlquilerSerializer(serializers.HyperlinkedModelSerializer):
                 queryset=Alquiler.objects.all(),
                 fields=['libro', 'fin'],
                 message="Ya existe un alquiler para este libro en la fecha de finalización"
-            ),
-
-            #la fecha de inicio sea anterior a la fecha de finalización.
-            serializers.LessThanDatetime(
-                datetime_field='inicio',
-                datetime_to_compare='fin',
-                message="La fecha de inicio debe ser anterior a la fecha de finalización"
             )
         ]
 
+    def validate(self, data):
+        inicio = data.get('inicio')
+        fin = data.get('fin')
+
+        if inicio and fin and inicio > fin:
+            raise serializers.ValidationError("La fecha de inicio debe ser anterior a la fecha de finalización")
+        return data
 
 
 class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
+
     class Meta:
         model = Usuario
         fields = ['url','user','genero','email']
