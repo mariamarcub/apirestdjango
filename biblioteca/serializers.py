@@ -10,7 +10,6 @@ class LibroSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url','usuario','titulo','autor','editorial','anyo_publicacion']
 
 
-
 # En el serializador de Alquiler, asegúrate de serializar correctamente los campos
 # relacionales como el libro y el usuario asociados con cada alquiler.
 # Validación de fechas: Implementa validación en el serializador para asegurarte
@@ -18,7 +17,6 @@ class LibroSerializer(serializers.HyperlinkedModelSerializer):
 # si se proporciona una fecha de finalización.
 
 class AlquilerSerializer(serializers.HyperlinkedModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     class Meta:
         model = Alquiler
         fields = ['url', 'libro','usuario','inicio','fin']
@@ -46,8 +44,8 @@ class AlquilerSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
+    usuario = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Usuario
-        fields = ['url','user','genero','email']
+        fields = ['url','usuario','genero','email']

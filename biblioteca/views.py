@@ -16,11 +16,12 @@ class LibroView(viewsets.ModelViewSet):
     def editoriales(self, request):
         # Obtener el nombre de la editorial proporcionado en la solicitud
         editorial_nombre = request.query_params.get('editorial')
-        # Filtrar los libros por el nombre de la editorial
+
+        # Filtrar los libros por el nombre de la editorial si se proporciona
+        libros = Libro.objects.all()  # Obtener todos los libros por defecto
         if editorial_nombre:
-            Libro.objects.filter(editorial=editorial_nombre)
-        else:
-            Libro.objects.all()
+            libros = libros.filter(editorial=editorial_nombre)
+
         serializer = AlquilerSerializer(editorial_nombre, many=True, context={'request': request})
         return Response(serializer.data)
 

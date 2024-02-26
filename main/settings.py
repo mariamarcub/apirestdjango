@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'biblioteca',
     'drf_spectacular',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
