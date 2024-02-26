@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-# Create your models here.
 
 
 # Crea dos modelos: uno para los libros y otro para los usuarios de la biblioteca.
@@ -42,7 +41,6 @@ class Libro(models.Model):
 
 
 class Alquiler(models.Model):
-
     libro = models.ForeignKey(Libro, models.PROTECT)
     usuario = models.ForeignKey(Usuario, models.PROTECT)
     inicio = models.DateTimeField()
