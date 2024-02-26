@@ -1,5 +1,5 @@
 from django.db.models import Q
-from rest_framework import permissions, viewsets
+from rest_framework import permissions, viewsets, generics
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -14,16 +14,14 @@ class LibroView(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def editoriales(self, request):
-        # Obtener el nombre de la editorial proporcionado en la solicitud
-        editorial_nombre = request.query_params.get('editorial')
+        # Obtener todas las editoriales únicas de los libros
+        editoriales = Libro.objects.values_list('editorial', flat=True).distinct()
 
-        # Filtrar los libros por el nombre de la editorial si se proporciona
-        libros = Libro.objects.all()  # Obtener todos los libros por defecto
-        if editorial_nombre:
-            libros = libros.filter(editorial=editorial_nombre)
+        # Convertir a una lista para facilitar su manipulación
+        editoriales = list(editoriales)
 
-        serializer = AlquilerSerializer(editorial_nombre, many=True, context={'request': request})
-        return Response(serializer.data)
+        return Response(editoriales)
+
 
 class AlquilerView(viewsets.ModelViewSet):
     queryset = Alquiler.objects.all()

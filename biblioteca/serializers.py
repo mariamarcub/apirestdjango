@@ -1,13 +1,11 @@
 from rest_framework import serializers
-from rest_framework.authtoken.admin import User
-
 from biblioteca.models import Libro, Alquiler, Usuario
 
 
 class LibroSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Libro
-        fields = ['url','usuario','titulo','autor','editorial','anyo_publicacion']
+        fields = ['url','titulo','autor','editorial','anyo_publicacion']
 
 
 # En el serializador de Alquiler, asegúrate de serializar correctamente los campos

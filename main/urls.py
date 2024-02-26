@@ -25,7 +25,6 @@ router.register(r'libros', views.LibroView)
 router.register(r'alquileres', views.AlquilerView)
 router.register(r'usuarios', views.UsuarioView)
 
-
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [

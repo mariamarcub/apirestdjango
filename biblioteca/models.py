@@ -28,14 +28,13 @@ class Usuario (models.Model):
 
 class Libro(models.Model):
 
-    usuario = models.ForeignKey(User, models.PROTECT)
     titulo = models.CharField(max_length=100)
     autor = models.CharField(max_length=100)
     editorial = models.CharField(max_length=100)
     anyo_publicacion = models.DateField()
 
     def __str__(self):
-        return f"{self.titulo} - {self.autor} - {self.usuario.user.username}"
+        return f"{self.titulo} - {self.autor}"
     class Meta:
         verbose_name_plural = "Libros"
 
